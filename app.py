@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
+speech_key = os.getenv('SPEECH_KEY')
+speech_region = os.getenv('SPEECH_REGION')
 
 app = FastAPI()
 
@@ -24,9 +26,12 @@ async def get_answer(messages: list):
             model = 'gpt-3.5-turbo',
             messages = messages
         )
-    answer = resp.get('choices')[0].get('message').get('content')
-    return answer
+    reply = resp.get('choices')[0].get('message').get('content')
+    return reply
         
+# @app.post('/text_to_voice')
+# async def convert_text_to_voice(text):
+#     resp = await 
 
 # if __name__=='__main__':
     # conversation_status = True

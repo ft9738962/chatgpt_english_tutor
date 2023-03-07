@@ -1,10 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from pydantic import BaseModel
 import openai,os
 from dotenv import load_dotenv
+from typing import List, Dict
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv('OPENAI_API_KEY')
 speech_key = os.getenv('SPEECH_KEY')
 speech_region = os.getenv('SPEECH_REGION')
 
@@ -21,24 +22,15 @@ async def convert_voice_to_text(audio_clip: str):
     return resp
 
 @app.post('/conversation/')
-async def get_answer(messages: list):
-    resp = await openai.ChatCompletion.create(
+def get_answer(data: List[Dict[str, str]]):
+    resp = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
-            messages = messages
+            messages = data
         )
     reply = resp.get('choices')[0].get('message').get('content')
+    print(reply)
     return reply
         
 # @app.post('/text_to_voice')
 # async def convert_text_to_voice(text):
 #     resp = await 
-
-# if __name__=='__main__':
-    # conversation_status = True
-    # new_conv = chat_gpt_conversation()
-    # while conversation_status:
-    #     question = text_question()
-    #     new_conv.get_chatgpt_resp(question)
-    #     conversation_status = False if input('Continue?') in ['No','NO','no'] else True
-    #     print('Conversation ends') if not conversation_status else print('')
-

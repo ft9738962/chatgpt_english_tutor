@@ -31,11 +31,12 @@ class chat_gpt_conversation:
 
     def send_text(self, text):
         text_api_url = self.remote_addr + 'conversation'
-        print(f'text_api_url: {text_api_url}')
         self.add_user_text(text)
-        reply = requests.post(text_api_url,data=self.conversations)
-        self.add_gpt_text(reply)
-        print(reply)
+        resp = requests.post(text_api_url, json=self.conversations)
+        if resp.status_code == 200:
+            result = resp.json()
+            self.add_gpt_text(result)
+            print(result)
 
     def send_voice(self, audio_clip):
         pass

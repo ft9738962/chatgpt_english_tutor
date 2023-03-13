@@ -1,6 +1,6 @@
 import azure.cognitiveservices.speech as speechsdk
 
-class assitant_speaker:
+class assistant_speaker:
     def __init__(self, key, region, voice_name="en-US-AriaNeural"):
         # Creates an instance of a speech config with specified subscription key and service region.
         self.speech_key = key
